@@ -11,7 +11,7 @@ import DayListItem from "components/DayListItem";
 import DayList from "components/DayList";
 
 import InterviewerListItem from "components/InterviewerListItem";
-import InterviewList from "components/InterviewerList";
+import InterviewerList from "components/InterviewerList";
 
 // Button
 storiesOf("Button", module)
