@@ -14,6 +14,7 @@ import InterviewerListItem from "components/InterviewerListItem";
 import InterviewerList from "components/InterviewerList";
 
 import Appointment from "components/Appointment/index";
+import Header from "components/Appointment/Header";
 
 // Button
 storiesOf("Button", module)
@@ -160,3 +161,9 @@ storiesOf("Appointment", module)
   })
   .add("Appointment", () => <Appointment />)
   .add("Appointment with Time", () => <Appointment time="12pm" />);
+//Header
+storiesOf("Header", module)
+.addParameters({
+  backgrounds: [{ name: "white", value: "#fff"}]
+})
+.add("Header", ()=> <Header time="12pm"/>)
