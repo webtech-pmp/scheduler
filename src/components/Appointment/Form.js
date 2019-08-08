@@ -4,11 +4,21 @@ import Button from "components/Button";
 
 import InterviewerList from "components/InterviewerList";
 
+/* PROPS
+name:String
+interviewers:Array
+interviewer:Number
+onSave:Function
+onCancel:Function
+*/
+
 export default function Form(props) {
+  const [name, setName] = useState(props.name || "");
+  const [interviewer, setInterviewer] = useState(props.interviewer || null);
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
-        <form autoComplete="off">
+        <form autoComplete="off" onSubmit={event => event.preventDefault()}>
           <input
             className="appointment__create-input text--semi-bold"
             name="name"
