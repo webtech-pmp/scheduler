@@ -1,4 +1,4 @@
-import React from "React";
+import React from "react";
 
 /* PROPS
 message:String eg. "Could not delete appointment."
