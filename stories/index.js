@@ -217,10 +217,26 @@ storiesOf("Appointment", module)
       onSave={action("onSave")}
     />
   ))
-  // Appointment EMPTY
+  // Appointment Empty
   .add("Appointment Empty", () => (
     <Fragment>
       <Appointment id={1} time="12pm" />
+      <Appointment id="last" time="1pm" />
+    </Fragment>
+  ))
+  // Appointment Booked
+  .add("Appointment Booked", () => (
+    <Fragment>
+      <Appointment
+        id={1}
+        time="12pm"
+        interview={{
+          student: "Lydia Miller-Jones",
+          interviewer: {
+            name: "Art River"
+          }
+        }}
+      />
       <Appointment id="last" time="1pm" />
     </Fragment>
   ));
