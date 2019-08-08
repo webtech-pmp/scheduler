@@ -169,7 +169,7 @@ storiesOf("Appointment", module)
   //Header
   .add("Header", () => <Header time="12pm" />)
   //Empty
-  .add("Empty", () => <Empty onClick={action("onAdd")} />)
+  .add("Empty", () => <Empty onAdd={action("onAdd")} />)
   //Show
   .add("Show", () => (
     <Show
