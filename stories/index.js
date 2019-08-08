@@ -20,6 +20,7 @@ import Show from "components/Appointment/Show";
 import Confirm from "components/Appointment/Confirm";
 import Status from "components/Appointment/Status";
 import Error from "components/Appointment/Error";
+import Form from "components/Appointment/Form";
 
 // Button
 storiesOf("Button", module)
@@ -103,7 +104,7 @@ const interviewer = {
   name: "Sylvia Palmer",
   avatar: "https://i.imgur.com/LpaY82x.png"
 };
-//InterviewerListItem
+// InterviewerListItem
 storiesOf("InterviewerListItem", module)
   .addParameters({
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
@@ -131,7 +132,7 @@ storiesOf("InterviewerListItem", module)
       setInterviewer={action("setInterviewer")}
     />
   ));
-//Interviewer List placeholder data
+// Interviewer List placeholder data
 const interviewers = [
   { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
   { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
@@ -139,7 +140,7 @@ const interviewers = [
   { id: 4, name: "Cohana Roy", avatar: "https://i.imgur.com/FK8V841.jpg" },
   { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
 ];
-//InterviewerList
+// InterviewerList
 storiesOf("InterviewerList", module)
   .addParameters({
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
@@ -148,8 +149,6 @@ storiesOf("InterviewerList", module)
     <InterviewerList
       interviewers={interviewers}
       setInterviewer={action("setInterviewer")}
-      value
-      onChange
     />
   ))
   .add("Preselected", () => (
@@ -159,18 +158,18 @@ storiesOf("InterviewerList", module)
       setInterviewer={action("setInterviewer")}
     />
   ));
-//Appointment
+// Appointment
 storiesOf("Appointment", module)
   .addParameters({
     backgrounds: [{ name: "white", value: "#fff", default: true }]
   })
   .add("Appointment", () => <Appointment />)
   .add("Appointment with Time", () => <Appointment time="12pm" />)
-  //Header
+  // Header
   .add("Header", () => <Header time="12pm" />)
-  //Empty
+  // Empty
   .add("Empty", () => <Empty onAdd={action("onAdd")} />)
-  //Show
+  // Show
   .add("Show", () => (
     <Show
       student="Lydia Miller-Jones"
@@ -183,7 +182,7 @@ storiesOf("Appointment", module)
       onDelete={action("onDelete")}
     />
   ))
-  //Confirm
+  // Confirm
   .add("Confirm", () => (
     <Confirm
       message="Delete the appointment?"
@@ -191,12 +190,30 @@ storiesOf("Appointment", module)
       onCancel={action("onCancel")}
     />
   ))
-  //Status
+  // Status
   .add("Status", () => <Status message="Deleting" />)
   // Error
   .add("Error", () => (
     <Error
       message="Could not delete appointment."
       onClose={action("onClose")}
+    />
+  ))
+  // Form CREATE
+  .add("Form CREATE", () => (
+    <Form
+      interviewers={interviewers}
+      onCancel={action("onCancel")}
+      onSave={action("onSave")}
+    />
+  ))
+  // Form EDIT
+  .add("Form EDIT", () => (
+    <Form
+      name="Lydia Millar-Jones"
+      interviewers={interviewers}
+      interviewer={3}
+      onCancel={action("onCancel")}
+      onSave={action("onSave")}
     />
   ));
