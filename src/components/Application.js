@@ -5,6 +5,7 @@ import DayList from "components/DayList";
 import axios from "axios";
 import Appointment from "components/Appointment";
 
+
 /* PROPS
 id: number
 time: string
@@ -48,7 +49,13 @@ const appointments = [
 ];
 
 export default function Application(props) {
-  const [state, setState] = useState({ day: "Monday", days: [], appointments });
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    appointments
+  });
+
+  const setDay = day => setState(prev => ({...prev, day}));
   const setDays = days => setState(prev => ({ ...prev, days }));
 
   useEffect(() => {
@@ -69,7 +76,7 @@ export default function Application(props) {
           <DayList
             days={state.days}
             day={state.day}
-            setDay={day => setState(prev => ({ ...prev, day }))}
+            setDay={setDay}
           />
         </nav>
         <img
