@@ -1,3 +1,4 @@
+//Appointments
 export function getAppointmentsForDay(state, day) {
   let result = [];
   let appointmentArray = "";
@@ -11,7 +12,7 @@ export function getAppointmentsForDay(state, day) {
   }
   return result;
 }
-
+// Interview
 export function getInterview(state, interview) {
   const interview_Id = interview.interviewer;
   const interviewAppointment = { ...interview };
