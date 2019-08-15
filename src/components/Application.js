@@ -29,14 +29,15 @@ export default function Application(props) {
       axios.get("/api/days"),
       axios.get("/api/appointments"),
       axios.get("/api/interviewers")
-    ]).then(response => {
-      setState({
-        ...state,
-        days: response[0].data,
-        appointments: response[1].data,
-        interviewers: response[2].data
+    ])
+      .then(response => {
+        setState({
+          ...state,
+          days: response[0].data,
+          appointments: response[1].data,
+          interviewers: response[2].data
+        });
       });
-    });
   }, []);
 
   let appointments = getAppointmentsForDay(state, state.day);
