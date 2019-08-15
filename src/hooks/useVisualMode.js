@@ -8,7 +8,7 @@ export default function useVisualMode(initial) {
   // transition
   function transition(newMode, replace = false) {
     setMode(newMode);
-    if(replace) {
+    if (replace) {
       setHistory((currentHistory) => {
         currentHistory.pop();
         return [
@@ -27,8 +27,17 @@ export default function useVisualMode(initial) {
   }
 
   function back() {
-    // logic for pop    
-    
+    // logic for pop
+    setHistory((currentHistory) => {
+      if (currentHistory.length !== 1) {
+        currentHistory.pop();
+        setMode(currentHistory[currentHistory.length - 1]);
+        return currentHistory;
+      } else {
+        setMode(currentHistory[currentHistory.length - 1]);
+      }
+      return currentHistory;
+    })
   }
   return { mode, transition, back };
 }
