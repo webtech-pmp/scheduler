@@ -11,7 +11,6 @@ import Status from "components/Appointment/Status";
 import Error from "components/Appointment/Error";
 import Form from "components/Appointment/Form";
 
-import classNames from "classnames";
 import useVisualMode from "hooks/useVisualMode";
 import axios from "axios";
 
@@ -66,6 +65,18 @@ export default function Appointment(props) {
       {mode === SAVE && <Status message="Saving" />}
 
       {mode === DELETE && <Status message="Deleting" />}
+
+      {mode === EDIT && (
+        <Form
+          onSave={(name, interviewer) => save(name, interviewer)}
+          onCancel={() => {
+            transition(SHOW);
+          }}
+          student={props.interview.student}
+          interviewer={props.interview.interviewer.id}
+          interviewers={props.interviewers}
+        />
+      )}
 
       {mode === SHOW && (
         <Show
