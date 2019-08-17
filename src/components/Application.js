@@ -10,10 +10,7 @@ import {
   getInterview,
   getInterviewersForDay
 } from "helpers/selectors";
-import {
-  arrowFunctionExpression,
-  isArrowFunctionExpression
-} from "@babel/types";
+
 
 /* PROPS
 id: number
