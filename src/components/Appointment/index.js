@@ -28,6 +28,8 @@ const CONFIRM = "CONFIRM";
 const DELETE = "DELETE";
 const EDIT = "EDIT";
 const SAVE = "SAVE";
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
 const confirmMessage = "Are your sure you would like to delete?";
 
 export default function Appointment(props) {
@@ -41,13 +43,19 @@ export default function Appointment(props) {
       interviewer
     };
     transition(SAVE);
-    props.bookInterview(props.id, interview).then(() => transition(SHOW));
+    props
+      .bookInterview(props.id, interview)
+      .then(() => transition(SHOW))
+      .catch(error => transition(ERROR_SAVE, true));
   }
 
   function onDelete(event) {
     const interview = null;
     transition(DELETE, true);
-    props.deleteInterview(props.id, interview).then(() => transition(EMPTY));
+    props
+      .deleteInterview(props.id, interview)
+      .then(() => transition(EMPTY))
+      .catch(error => transition(ERROR_DELETE, true));
   }
 
   return (
@@ -69,9 +77,7 @@ export default function Appointment(props) {
       {mode === EDIT && (
         <Form
           onSave={(name, interviewer) => save(name, interviewer)}
-          onCancel={() => {
-            transition(SHOW);
-          }}
+          onCancel={back}
           student={props.interview.student}
           interviewer={props.interview.interviewer.id}
           interviewers={props.interviewers}
@@ -84,26 +90,37 @@ export default function Appointment(props) {
           student={props.interview.student}
           interviewer={props.interview.interviewer}
           onDelete={() => transition(CONFIRM)}
+          onEdit={() => transition(EDIT)}
         />
       )}
 
       {mode === CREATE && (
-        <Form
-          interviewers={props.interviewers}
-          onCancel={() => {
-            transition(EMPTY);
-          }}
-          onSave={save}
-        />
+        <Form interviewers={props.interviewers} onCancel={back} onSave={save} />
       )}
 
       {mode === CONFIRM && (
         <Confirm
           message={confirmMessage}
-          onCancel={() => {
-            transition(SHOW);
-          }}
+          onCancel={back}
           onConfirm={onDelete}
+        />
+      )}
+
+      {mode === ERROR_SAVE && (
+        <Error
+          message="Unable to save"
+          onClose={() => {
+            transition(CREATE);
+          }}
+        />
+      )}
+
+      {mode === ERROR_DELETE && (
+        <Error
+          message="Unable to delete"
+          onClose={() => {
+            transition(SHOW, true);
+          }}
         />
       )}
     </article>
