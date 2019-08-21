@@ -13,6 +13,7 @@ import Form from "components/Appointment/Form";
 
 import useVisualMode from "hooks/useVisualMode";
 import axios from "axios";
+import { action } from "@storybook/addon-actions";
 
 /* PROPS
 id: key
@@ -30,7 +31,7 @@ const EDIT = "EDIT";
 const SAVE = "SAVE";
 const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE";
-const confirmMessage = "Are your sure you would like to delete?";
+const confirmMessage = "Are you sure you would like to delete?";
 
 export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
@@ -43,6 +44,7 @@ export default function Appointment(props) {
       interviewer
     };
     transition(SAVE);
+    // console.log(typeof props.bookInterview);
     props
       .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
@@ -50,10 +52,9 @@ export default function Appointment(props) {
   }
 
   function onDelete(event) {
-    const interview = null;
     transition(DELETE, true);
     props
-      .deleteInterview(props.id, interview)
+      .deleteInterview(props.id)
       .then(() => transition(EMPTY))
       .catch(error => transition(ERROR_DELETE, true));
   }
@@ -78,7 +79,7 @@ export default function Appointment(props) {
         <Form
           onSave={(name, interviewer) => save(name, interviewer)}
           onCancel={back}
-          student={props.interview.student}
+          name={props.interview.student}
           interviewer={props.interview.interviewer.id}
           interviewers={props.interviewers}
         />
@@ -110,7 +111,7 @@ export default function Appointment(props) {
         <Error
           message="Unable to save"
           onClose={() => {
-            transition(CREATE);
+            back();
           }}
         />
       )}
@@ -119,10 +120,63 @@ export default function Appointment(props) {
         <Error
           message="Unable to delete"
           onClose={() => {
-            transition(SHOW, true);
+            back();
           }}
         />
       )}
     </article>
   );
 }
+
+// function Big() {
+//   var [count, setCount] = useState(0);
+
+//   function increment() {
+//     setCount(prev => prev + 1);
+//   }
+
+//   useEffect(() => {
+//     setInterval(increment, 5000);
+//   }, [])
+
+//   setCount(5);
+// }
+
+// function reducer(state, action) {
+//   if(action.type === "SET_DAY") {
+//     return {...state, day: action.day}
+//   }
+
+//   if (action.type === "SET_INTERVIEW") {
+//     return { ...state, day: action.day }
+//   }
+// }
+
+// dispatch({type: "SET_DAY", day: "Tuesday"})
+
+// switch (action.type) {
+//   case "SET_DAY": {
+//     const local = "saf";
+//     break;
+//   }
+//   case "SET_INTERVIEW":
+//     break;
+//   default:
+//     throw new Error("Type not supported " + action.type);
+// }
+// function setDay(state, action) {
+//   return { ...state, day: action.day };
+// }
+
+// const lookup = {
+//   SET_DAY: setDay,
+//   SET_INTERVIEW: (state, action) => {}
+// };
+
+// function reducer(state, action) {
+//   if (lookup[action.type]) {
+//     return lookup[action.type](state, action);
+//   } else {
+//     return state;
+//   }
+// }
