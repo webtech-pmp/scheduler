@@ -18,6 +18,13 @@ interview: object with student and interviewer object with name
 */
 
 export default function Application(props) {
+  const {
+    state,
+    setDay,
+    bookInterview,
+    deleteInterview
+  } = useApplicationData();
+
   const [state, setState] = useState({
     day: "Monday",
     days: [],
