@@ -4,6 +4,7 @@ import axios from "axios";
 
 // Const
 const SET_DAY = "SET_DAY";
+const SET_DAYS = "SET_DAYS";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
 
@@ -16,50 +17,80 @@ export default function useApplicationData() {
   // The bookInterview action makes an HTTP request and updates the local state.
   // The cancelInterview action makes an HTTP request and updates the local state.
 
+  const reducer = function (state, action) {
 
-  const [state, setState] = useState({
+    switch (action.type) {
+      case SET_DAY:
+        return { ...state, day: action.day }
+        break;
+      case SET_DAYS:
+        return { ...state, days: action.days }
+        break;
+      case SET_APPLICATION_DATA:
+        return {
+
+        }
+        break;
+      case SET_INTERVIEW: {
+        return {
+
+        }
+        break;
+      }
+      default:
+        throw new Error(
+          `Tried to reduce with unsupported action type: ${action.type}`
+        );
+    }
+  }
+
+  const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
     days: [],
     appointments: {},
     interviewers: {}
   });
 
-  const setDay = day => setState(prev => ({ ...prev, day }));
-  const setDays = days => setState(prev => ({ ...prev, days }));
+  const setDay = day => dispatch({ type: SET_DAY, day });
+
+  const setDays = day => dispatch({ type: SET_DAYS, day });
 
   function bookInterview(id, interview) {
-    return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
-      const appointment = {
-        ...state.appointments[id],
-        interview: { ...interview }
-      };
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment
-      };
+    return axios
+    .put(`/api/appointments/${id}`, { interview }).then(() => {
+      // const appointment = {
+      //   ...state.appointments[id],
+      //   interview: { ...interview }
+      // };
+      // const appointments = {
+      //   ...state.appointments,
+      //   [id]: appointment
+      // };
 
-      setState({
-        ...state,
-        appointments
-      });
+      // setState({
+      //   ...state,
+      //   appointments
+      // });
+      dispatch({ type: SET_INTERVIEW, id, interview });
     });
   }
 
   function deleteInterview(id) {
     return axios.delete(`/api/appointments/${id}`).then(() => {
-      const appointment = {
-        ...state.appointments[id],
-        interview: null
-      };
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment
-      };
+      // const appointment = {
+      //   ...state.appointments[id],
+      //   interview: null
+      // };
+      // const appointments = {
+      //   ...state.appointments,
+      //   [id]: appointment
+      // };
 
-      setState({
-        ...state,
-        appointments
-      });
+      // setState({
+      //   ...state,
+      //   appointments
+      // });
+      dispatch({ type: SET_INTERVIEW, id, interview: null });
     });
   }
 
@@ -69,18 +100,25 @@ export default function useApplicationData() {
       axios.get("/api/appointments"),
       axios.get("/api/interviewers")
     ]).then(response => {
-      setState({
-        ...state,
-        days: response[0].data,
-        appointments: response[1].data,
-        interviewers: response[2].data
+      // setState({
+      //   ...state,
+      //   days: response[0].data,
+      //   appointments: response[1].data,
+      //   interviewers: response[2].data
+      // });
+      dispatch({
+        type: SET_APPLICATION_DATA,
+        days,
+        appointments,
+        interviewers
       });
     });
-  }, [state]);
+  }, []);
 
   return {
     state,
     setDay,
+    dispatch,
     bookInterview,
     deleteInterview
   };
