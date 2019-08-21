@@ -1,5 +1,7 @@
 # Interview Scheduler
 
+The application uses ```React Hooks``` instead of ```class```
+
 ## Setup
 
 Install dependencies with `npm install`.
