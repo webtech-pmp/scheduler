@@ -37,7 +37,7 @@ export default function useApplicationData() {
           ...state.appointments[action.id],
           interview: action.interview && {
             ...action.interview
-          } // if null set to null else spread to new object
+          }
         };
         const appointments = {
           ...state.appointments,
