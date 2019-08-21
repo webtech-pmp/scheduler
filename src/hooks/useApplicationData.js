@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useReducer, useEffect } from "react";
+import { useReducer, useEffect } from "react";
 import axios from "axios";
 
 // Const
@@ -35,7 +35,7 @@ export default function useApplicationData() {
       case SET_INTERVIEW: {
         const appointment = {
           ...state.appointments[action.id],
-          interview: action.interview && { ...action.interview }
+          interview: action.interview && { ...action.interview } // if null set to null else spread to new object
         };
         const appointments = {
           ...state.appointments,
@@ -64,43 +64,19 @@ export default function useApplicationData() {
 
   const setDay = day => dispatch({ type: SET_DAY, day });
 
-  const setDays = day => dispatch({ type: SET_DAYS, day });
-
   function bookInterview(id, interview) {
-    return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
-      // const appointment = {
-      //   ...state.appointments[id],
-      //   interview: { ...interview }
-      // };
-      // const appointments = {
-      //   ...state.appointments,
-      //   [id]: appointment
-      // };
-
-      // setState({
-      //   ...state,
-      //   appointments
-      // });
-      dispatch({ type: SET_INTERVIEW, id, interview });
+    return axios
+      .put(`/api/appointments/${id}`, { interview })
+      .then(() => {
+        dispatch({ type: SET_INTERVIEW, id, interview });
     });
   }
 
   function deleteInterview(id) {
-    return axios.delete(`/api/appointments/${id}`).then(() => {
-      // const appointment = {
-      //   ...state.appointments[id],
-      //   interview: null
-      // };
-      // const appointments = {
-      //   ...state.appointments,
-      //   [id]: appointment
-      // };
-
-      // setState({
-      //   ...state,
-      //   appointments
-      // });
-      dispatch({ type: SET_INTERVIEW, id, interview: null });
+    return axios
+      .delete(`/api/appointments/${id}`)
+      .then(() => {
+        dispatch({ type: SET_INTERVIEW, id, interview: null });
     });
   }
 
@@ -109,19 +85,14 @@ export default function useApplicationData() {
       axios.get("/api/days"),
       axios.get("/api/appointments"),
       axios.get("/api/interviewers")
-    ]).then(response => {
-      // setState({
-      //   ...state,
-      //   days: response[0].data,
-      //   appointments: response[1].data,
-      //   interviewers: response[2].data
-      // });
-      dispatch({
-        type: SET_APPLICATION_DATA,
-        days: response[0].data,
-        appointments: response[1].data,
-        interviewers: response[2].data
-      });
+    ])
+      .then(response => {
+        dispatch({
+          type: SET_APPLICATION_DATA,
+          days: response[0].data,
+          appointments: response[1].data,
+          interviewers: response[2].data
+        });
     });
   }, []);
 
