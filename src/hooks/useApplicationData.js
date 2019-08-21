@@ -35,16 +35,30 @@ export default function useApplicationData() {
       case SET_INTERVIEW: {
         const appointment = {
           ...state.appointments[action.id],
-          interview: action.interview && { ...action.interview } // if null set to null else spread to new object
+          interview: action.interview && {
+            ...action.interview
+          } // if null set to null else spread to new object
         };
         const appointments = {
           ...state.appointments,
           [action.id]: appointment
         };
+        const day = state.days.findIndex(day => day.name === state.day);
+
+        const days = state.days.map((day, index) => {
+          if (day.name !== state.day) {
+            return day;
+          }
+          return {
+            ...day,
+            spots: action.interview === null ? day.spots + 1 : day.spots - 1
+          };
+        });
 
         return {
           ...state,
-          appointments
+          appointments,
+          days
         };
       }
 
@@ -65,18 +79,14 @@ export default function useApplicationData() {
   const setDay = day => dispatch({ type: SET_DAY, day });
 
   function bookInterview(id, interview) {
-    return axios
-      .put(`/api/appointments/${id}`, { interview })
-      .then(() => {
-        dispatch({ type: SET_INTERVIEW, id, interview });
+    return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
+      dispatch({ type: SET_INTERVIEW, id, interview });
     });
   }
 
   function deleteInterview(id) {
-    return axios
-      .delete(`/api/appointments/${id}`)
-      .then(() => {
-        dispatch({ type: SET_INTERVIEW, id, interview: null });
+    return axios.delete(`/api/appointments/${id}`).then(() => {
+      dispatch({ type: SET_INTERVIEW, id, interview: null });
     });
   }
 
@@ -85,14 +95,13 @@ export default function useApplicationData() {
       axios.get("/api/days"),
       axios.get("/api/appointments"),
       axios.get("/api/interviewers")
-    ])
-      .then(response => {
-        dispatch({
-          type: SET_APPLICATION_DATA,
-          days: response[0].data,
-          appointments: response[1].data,
-          interviewers: response[2].data
-        });
+    ]).then(response => {
+      dispatch({
+        type: SET_APPLICATION_DATA,
+        days: response[0].data,
+        appointments: response[1].data,
+        interviewers: response[2].data
+      });
     });
   }, []);
 
