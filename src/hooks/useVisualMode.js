@@ -9,26 +9,20 @@ export default function useVisualMode(initial) {
   function transition(newMode, replace = false) {
     setMode(newMode);
     if (replace) {
-      setHistory((currentHistory) => {
+      setHistory(currentHistory => {
         currentHistory.pop();
-        return [
-          ...currentHistory,
-          newMode
-        ]
-      })
+        return [...currentHistory, newMode];
+      });
     } else {
-      setHistory((currentHistory) => {
-        return [
-          ...currentHistory,
-          newMode
-        ]
-      })
+      setHistory(currentHistory => {
+        return [...currentHistory, newMode];
+      });
     }
   }
 
   function back() {
     // logic for pop
-    setHistory((currentHistory) => {
+    setHistory(currentHistory => {
       if (currentHistory.length !== 1) {
         currentHistory.pop();
         setMode(currentHistory[currentHistory.length - 1]);
@@ -37,7 +31,7 @@ export default function useVisualMode(initial) {
         setMode(currentHistory[currentHistory.length - 1]);
       }
       return currentHistory;
-    })
+    });
   }
   return { mode, transition, back };
 }
