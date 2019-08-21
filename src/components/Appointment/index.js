@@ -13,7 +13,6 @@ import Form from "components/Appointment/Form";
 
 import useVisualMode from "hooks/useVisualMode";
 import axios from "axios";
-import { action } from "@storybook/addon-actions";
 
 /* PROPS
 id: key
@@ -127,56 +126,3 @@ export default function Appointment(props) {
     </article>
   );
 }
-
-// function Big() {
-//   var [count, setCount] = useState(0);
-
-//   function increment() {
-//     setCount(prev => prev + 1);
-//   }
-
-//   useEffect(() => {
-//     setInterval(increment, 5000);
-//   }, [])
-
-//   setCount(5);
-// }
-
-// function reducer(state, action) {
-//   if(action.type === "SET_DAY") {
-//     return {...state, day: action.day}
-//   }
-
-//   if (action.type === "SET_INTERVIEW") {
-//     return { ...state, day: action.day }
-//   }
-// }
-
-// dispatch({type: "SET_DAY", day: "Tuesday"})
-
-// switch (action.type) {
-//   case "SET_DAY": {
-//     const local = "saf";
-//     break;
-//   }
-//   case "SET_INTERVIEW":
-//     break;
-//   default:
-//     throw new Error("Type not supported " + action.type);
-// }
-// function setDay(state, action) {
-//   return { ...state, day: action.day };
-// }
-
-// const lookup = {
-//   SET_DAY: setDay,
-//   SET_INTERVIEW: (state, action) => {}
-// };
-
-// function reducer(state, action) {
-//   if (lookup[action.type]) {
-//     return lookup[action.type](state, action);
-//   } else {
-//     return state;
-//   }
-// }
