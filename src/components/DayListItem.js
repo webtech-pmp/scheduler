@@ -11,16 +11,6 @@ setDay:Function accepts the name of the day eg. "Monday", "Tuesday"
 */
 
 function Spot(count) {
-  // switch (count) {
-  //   case 0:
-  //     return `no spots remaining`;
-  //     break;
-  //   case 1:
-  //     return `1 spot remaining`;
-  //     break;
-  //   default:
-  //     return `${count} spots remaining`;
-  //   }
   if (count === 0) return "no spots remaining";
   if (count === 1) return "1 spot remaining";
   return `${count} spots remaining`;
