@@ -1,5 +1,5 @@
 // Dependencies
-import React, {useReducer, useEffect } from "react";
+import React, { useReducer, useEffect } from "react";
 import axios from "axios";
 
 // Const
@@ -7,7 +7,6 @@ const SET_DAY = "SET_DAY";
 const SET_DAYS = "SET_DAYS";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
-
 
 export default function useApplicationData() {
   //will return an object with four keys:
@@ -17,46 +16,44 @@ export default function useApplicationData() {
   // The bookInterview action makes an HTTP request and updates the local state.
   // The cancelInterview action makes an HTTP request and updates the local state.
 
-  const reducer = function (state, action) {
-
+  const reducer = function(state, action) {
     switch (action.type) {
       case SET_DAY:
-        return { ...state, day: action.day }
-        
+        return { ...state, day: action.day };
+
       case SET_DAYS:
-        return { ...state, days: action.days }
-        
+        return { ...state, days: action.days };
+
       case SET_APPLICATION_DATA:
         return {
-            ...state,
-            days: action.days,
-            appointments: action.appointments,
-            interviewers: action.interviewers
-          };
-       
-      case SET_INTERVIEW: {
+          ...state,
+          days: action.days,
+          appointments: action.appointments,
+          interviewers: action.interviewers
+        };
 
+      case SET_INTERVIEW: {
         const appointment = {
           ...state.appointments[action.id],
-          interview: { ...action.interview }
+          interview: action.interview && { ...action.interview }
         };
         const appointments = {
           ...state.appointments,
           [action.id]: appointment
         };
-        
-          return {
-            ...state,
-              appointments
-          };
+
+        return {
+          ...state,
+          appointments
+        };
       }
-      
+
       default:
         throw new Error(
           `Tried to reduce with unsupported action type: ${action.type}`
         );
     }
-  }
+  };
 
   const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
@@ -70,8 +67,7 @@ export default function useApplicationData() {
   const setDays = day => dispatch({ type: SET_DAYS, day });
 
   function bookInterview(id, interview) {
-    return axios
-    .put(`/api/appointments/${id}`, { interview }).then(() => {
+    return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
       // const appointment = {
       //   ...state.appointments[id],
       //   interview: { ...interview }
