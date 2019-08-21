@@ -22,21 +22,23 @@ export default function useApplicationData() {
     switch (action.type) {
       case SET_DAY:
         return { ...state, day: action.day }
-        break;
+        
       case SET_DAYS:
         return { ...state, days: action.days }
-        break;
+        
       case SET_APPLICATION_DATA:
         return {
-
-        }
-        break;
-      case SET_INTERVIEW: {
+            ...state,
+            days: action.days,
+            appointments: action.appointments,
+            interviewers: action.interviewers
+          };
+       
+      case SET_INTERVIEW: 
         return {
 
         }
-        break;
-      }
+      
       default:
         throw new Error(
           `Tried to reduce with unsupported action type: ${action.type}`
@@ -108,9 +110,9 @@ export default function useApplicationData() {
       // });
       dispatch({
         type: SET_APPLICATION_DATA,
-        days,
-        appointments,
-        interviewers
+        days: response[0].data,
+        appointments: response[1].data,
+        interviewers: response[2].data
       });
     });
   }, []);
