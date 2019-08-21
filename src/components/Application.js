@@ -11,7 +11,6 @@ import {
   getInterviewersForDay
 } from "helpers/selectors";
 
-
 /* PROPS
 id: number
 time: string
@@ -30,23 +29,40 @@ export default function Application(props) {
   const setDays = days => setState(prev => ({ ...prev, days }));
 
   function bookInterview(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
+    return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview }
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
 
-    setState({
-      ...state,
-      appointments
+      setState({
+        ...state,
+        appointments
+      });
     });
-
-    // return axios.put("/api/appointments");
   }
 
+  function deleteInterview(id) {
+    return axios.delete(`/api/appointments/${id}`).then(() => {
+      const appointment = {
+        ...state.appointments[id],
+        interview: null
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+
+      setState({
+        ...state,
+        appointments
+      });
+    });
+  }
   useEffect(() => {
     Promise.all([
       axios.get("/api/days"),
@@ -74,6 +90,8 @@ export default function Application(props) {
           time={appointment.time}
           interview={interview}
           interviewers={interviewers}
+          bookInterview={bookInterview}
+          deleteInterview={deleteInterview}
         />
       );
     }
