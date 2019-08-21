@@ -17,7 +17,6 @@ id: number
 time: string
 interview: object with student and interviewer object with name
 */
-
 export default function Application(props) {
   const {
     state,
