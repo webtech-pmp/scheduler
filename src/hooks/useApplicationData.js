@@ -34,10 +34,22 @@ export default function useApplicationData() {
             interviewers: action.interviewers
           };
        
-      case SET_INTERVIEW: 
-        return {
+      case SET_INTERVIEW: {
 
-        }
+        const appointment = {
+          ...state.appointments[action.id],
+          interview: { ...action.interview }
+        };
+        const appointments = {
+          ...state.appointments,
+          [action.id]: appointment
+        };
+        
+          return {
+            ...state,
+              appointments
+          };
+      }
       
       default:
         throw new Error(
