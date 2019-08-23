@@ -31,8 +31,14 @@ export default function useApplicationData() {
           appointments: action.appointments,
           interviewers: action.interviewers
         };
-
+      
+      // call when:
+      // -->creating new appointment
+      // -->editing existing appointment
       case SET_INTERVIEW: {
+        const existingAppointment = Boolean(
+          state.appointments[action.id].interview
+        );
         const appointment = {
           ...state.appointments[action.id],
           interview: action.interview && {
@@ -43,16 +49,29 @@ export default function useApplicationData() {
           ...state.appointments,
           [action.id]: appointment
         };
-        const day = state.days.findIndex(day => day.name === state.day);
-
-        const days = state.days.map((day, index) => {
+        console.log("state:", state);
+        const days = state.days.map(day => {
           if (day.name !== state.day) {
             return day;
+          } else {
+            // If we are removing an interview, remaining spots go up;
+            // If we are editing an interview, remaining spots stay constant;
+            // If we are creating an interview, remaining spots go down
+            console.log("state:", state);
+            let spots = day.spots;
+            if (!action.interview) {
+              spots++;
+            } else if (!existingAppointment) {
+              spots--;
+            }
+            // const spots = !action.interview
+            //   ? day.spots + 1
+            //   : !existingAppointment
+            //   ? day.spots - 1
+            //   : day.spots;
+            // const spots =  ? days.spots + 1 : existingAppointment ?
+            return { ...day, spots };
           }
-          return {
-            ...day,
-            spots: action.interview === null ? day.spots + 1 : day.spots - 1
-          };
         });
 
         return {
