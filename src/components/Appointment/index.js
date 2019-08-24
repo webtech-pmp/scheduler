@@ -12,7 +12,6 @@ import Error from "components/Appointment/Error";
 import Form from "components/Appointment/Form";
 
 import useVisualMode from "hooks/useVisualMode";
-import axios from "axios";
 
 /* PROPS
 id: key
