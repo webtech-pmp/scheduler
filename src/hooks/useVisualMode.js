@@ -26,11 +26,8 @@ export default function useVisualMode(initial) {
     setHistory(currentHistory => {
       if (currentHistory.length !== 1) {
         currentHistory.pop();
-        setMode(currentHistory[currentHistory.length - 1]);
-        return currentHistory;
-      } else {
-        setMode(currentHistory[currentHistory.length - 1]);
       }
+      setMode(currentHistory[currentHistory.length - 1]);
       return currentHistory;
     });
   }
