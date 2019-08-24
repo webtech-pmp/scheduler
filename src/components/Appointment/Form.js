@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Button from "components/Button";
 
 import InterviewerList from "components/InterviewerList";
-import useVisualMode from "hooks/useVisualMode";
+//import useVisualMode from "hooks/useVisualMode";
 
 /* PROPS
 name:String
@@ -12,10 +12,10 @@ interviewer:Number
 onSave:Function
 onCancel:Function
 */
-const SHOW = "SHOW";
+//const SHOW = "SHOW";
 
 export default function Form(props) {
-  const { mode, transition, back } = useVisualMode(SHOW);
+  //const { mode, transition, back } = useVisualMode(SHOW);
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const [error, setError] = useState("");
