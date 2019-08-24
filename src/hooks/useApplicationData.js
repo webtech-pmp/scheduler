@@ -49,28 +49,24 @@ export default function useApplicationData() {
           ...state.appointments,
           [action.id]: appointment
         };
-        console.log("state:", state);
         const days = state.days.map(day => {
+          // Error check
           if (day.name !== state.day) {
             return day;
           } else {
-            // If we are removing an interview, remaining spots go up;
-            // If we are editing an interview, remaining spots stay constant;
-            // If we are creating an interview, remaining spots go down
-            console.log("state:", state);
+            // Conditions:
+            // --> create interview: spots count decrements
+            // --> edit existing interview: spot count remains unchanged
+            // --> delete existing interview: spot count increments
             let spots = day.spots;
             if (!action.interview) {
               spots++;
             } else if (!existingAppointment) {
               spots--;
             }
-            // const spots = !action.interview
-            //   ? day.spots + 1
-            //   : !existingAppointment
-            //   ? day.spots - 1
-            //   : day.spots;
-            // const spots =  ? days.spots + 1 : existingAppointment ?
-            return { ...day, spots };
+            return {
+              ...day, 
+              spots };
           }
         });
 
