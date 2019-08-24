@@ -108,18 +108,14 @@ export default function Appointment(props) {
       {mode === ERROR_SAVE && (
         <Error
           message="Unable to save"
-          onClose={() => {
-            back();
-          }}
+          onClose={back}
         />
       )}
 
       {mode === ERROR_DELETE && (
         <Error
           message="Unable to delete"
-          onClose={() => {
-            back();
-          }}
+          onClose={back}
         />
       )}
     </article>
